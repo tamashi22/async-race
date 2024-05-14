@@ -1,7 +1,22 @@
 @import './common/fonts.scss';
 @import './common/temp.scss';
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Press Start 2P', cursive;
+}
+body {
+  background-image: url(../assets/images/retro.webp);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+}
+.container {
+  max-width: 1440px;
+  padding: 0px 20px;
+  margin: 0 auto;
+  position: relative;
 }

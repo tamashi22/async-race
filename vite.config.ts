@@ -22,6 +22,7 @@ export default defineConfig({
       '@icons': resolve(__dirname, 'src/assets/icons'),
       '@types': resolve(__dirname, 'src/types'),
       '@hooks': resolve(__dirname, 'src/hooks'),
+      '@services': resolve(__dirname, './src/services'),
     },
   },
 });

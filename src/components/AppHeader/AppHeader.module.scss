@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.logo {
+  width: 150px;
+  height: 150px;
+}
+.routes {
+  display: flex;
+  gap: 10px;
+  .link {
+    text-decoration: underline;
+    color: #fff;
+    &:hover {
+      color: grey;
+    }
+  }
+}

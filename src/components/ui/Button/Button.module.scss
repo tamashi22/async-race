@@ -1,0 +1,64 @@
+
+
+.button {
+  font-size: 10px;
+  
+  width: fit-content;
+  padding: 5px;
+  height: 30px;
+  border: 0px;
+  position: relative;
+  box-shadow:
+    inset -4px 2px 1px 1px grey,
+    inset -4px -2px 1px 1px lightgray,
+    inset 4px 0px 1px 1px lightgray;
+  &--red {
+    background: red;
+  }
+  &--disabled {
+    &__opacity {
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
+    &__color {
+      &:disabled {
+        background-color: grey;
+      }
+    }
+  }
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.button:active {
+  top: 5px;
+  box-shadow:
+    -4px 2px 1px 1px grey,
+    -4px -2px 1px 1px lightgray,
+    4px 0px 1px 1px lightgray;
+}
+
+.button::after {
+  content: '';
+  background: black;
+  position: absolute;
+  left: -2.5%;
+  top: 0;
+  width: 105%;
+  height: 100%;
+  z-index: -1;
+}
+
+.button::before {
+  content: '';
+  background: black;
+  position: absolute;
+  left: 0;
+  top: -5%;
+  width: 100%;
+  height: 113%;
+  z-index: -1;
+}

@@ -24,7 +24,9 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@hooks/*": ["src/hooks/*"],
-      // other aliases...
+      "@images/*": ["src/assets/images/*"],
+      "@icons/*": ["src/assets/icons/*"],
+      "@services/*": ["src/services/*"],
     }
   },
   "include": ["src"]
