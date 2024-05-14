@@ -23,6 +23,8 @@ export default defineConfig({
       '@types': resolve(__dirname, 'src/types'),
       '@hooks': resolve(__dirname, 'src/hooks'),
       '@services': resolve(__dirname, './src/services'),
+      '@utils': resolve(__dirname, './src/utils'),
+      '@constants': resolve(__dirname, './src/constants'),
     },
   },
 });

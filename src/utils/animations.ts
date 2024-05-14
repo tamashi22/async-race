@@ -1,25 +1,29 @@
 import anime from 'animejs';
 
 export const animateCar = (
-  id: string,
   velocity: number,
+  id: number,
   distance: number,
-  containerId: string,
-  onComplete: () => void,
+  setIsRunning: (isRunning: boolean) => void,
+  onFinish: (id: number) => void,
 ) => {
-  const container = document.getElementById(containerId);
-  const translateX = container ? container.offsetWidth - 200 : 1000; // Adjust this value as needed
-  const duration = (distance / velocity) * 1000; // Calculate duration based on velocity and distance
+  const container = document.getElementById('race-track-container');
+  const translateX = container ? container.offsetWidth - 200 : 1000;
+  const scaledDistance = distance / 1000;
+  const duration = Math.min((scaledDistance / velocity) * 1000, 5000);
   anime({
     targets: `#car-icon-${id}`,
-    translateX,
-    duration,
+    translateX: translateX,
+    duration: duration,
     easing: 'linear',
-    complete: onComplete,
+    complete: () => {
+      setIsRunning(false);
+      onFinish(id);
+    },
   });
 };
 
-export const resetAnimation = (id: string) => {
+export const resetAnimation = (id: number) => {
   anime.remove(`#car-icon-${id}`);
   anime({
     targets: `#car-icon-${id}`,

@@ -1,39 +1,64 @@
 import { useState } from 'react';
-import {
-  switchEngine,
-  isEngineError,
-  EngineResponse,
-} from '@services/EngineApi';
+import anime from 'animejs';
+import { switchEngine, isEngineError } from '@services/EngineApi';
+import { animateCar, resetAnimation } from '@utils/animations';
 
-export const useCarEngine = (id: number) => {
-  const [isRunning, setIsRunning] = useState<boolean>(false);
+export const useCarEngine = (carId: number, onFinish: (id: number) => void) => {
+  const [isRunning, setIsRunning] = useState(false);
 
-  const startEngine = async (): Promise<EngineResponse | null> => {
-    const response = await switchEngine(id, 'started');
-    if (!isEngineError(response) && response.velocity && response.distance) {
+  const handleStartEngine = async () => {
+    const startResponse = await switchEngine(carId, 'started');
+    if (
+      !isEngineError(startResponse) &&
+      startResponse.velocity &&
+      startResponse.distance
+    ) {
       setIsRunning(true);
-      return response;
-    } else {
-      //   console.error('Engine Error:', response.message);
-      return null;
+      animateCar(
+        startResponse.velocity,
+        carId,
+        startResponse.distance,
+        setIsRunning,
+        onFinish,
+      );
+      const success = await handleDriveMode(carId);
+      if (!success) {
+        anime.remove(`#car-icon-${carId}`);
+      }
+    } else if (isEngineError(startResponse)) {
+      console.error(startResponse.message);
     }
   };
 
-  const stopEngine = async (): Promise<boolean> => {
-    const response = await switchEngine(id, 'stopped');
+  const handleStopEngine = async () => {
+    await switchEngine(carId, 'stopped');
+    resetAnimation(carId);
     setIsRunning(false);
-    return !isEngineError(response);
   };
 
-  const driveMode = async (): Promise<boolean> => {
-    const response = await switchEngine(id, 'drive');
-    if (!isEngineError(response) && response.success) {
+  const handleDriveMode = async (id: number) => {
+    const driveResponse = await switchEngine(id, 'drive');
+    if (!isEngineError(driveResponse) && driveResponse.success) {
+      console.log('Car is now in drive mode!');
       return true;
     } else {
-      //   console.error('Drive Mode Error:', response.message);
+      if (
+        isEngineError(driveResponse) &&
+        driveResponse.message.includes('500')
+      ) {
+        console.error('Engine failure:', driveResponse.message);
+        resetAnimation(id);
+        setIsRunning(false);
+      } else {
+        // console.error('Failed to switch to drive mode:', driveResponse.message);
+      }
       return false;
     }
   };
 
-  return { startEngine, stopEngine, driveMode, isRunning };
+  return {
+    isRunning,
+    handleStartEngine,
+    handleStopEngine,
+  };
 };

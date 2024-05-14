@@ -3,7 +3,10 @@ export interface Car {
   name: string;
   color: string;
 }
-
+export interface NewCar {
+  name: string;
+  color: string;
+}
 export interface CarResponse {
   data: Car;
 }

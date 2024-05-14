@@ -1,6 +1,6 @@
 import { createCar } from './GarageApi';
-import { getRandomCar, getRandomColor } from 'src/utils';
-import { Car } from 'src/types/CarTypes';
+import { getRandomCar } from '@utils/GetRandomCar';
+import { getRandomColor } from '@utils/GetRandomColor';
 export const createRandomCars = async () => {
   const promises = [];
   for (let i = 0; i < 100; i++) {

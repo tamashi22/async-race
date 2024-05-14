@@ -1,4 +1,4 @@
-import { carMarks, carModels } from 'src/constants/CarsArr';
+import { carMarks, carModels } from '@constants/CarsArr';
 const getRandomElement = (arr: string[]) =>
   arr[Math.floor(Math.random() * arr.length)];
 export const getRandomCar = () => {

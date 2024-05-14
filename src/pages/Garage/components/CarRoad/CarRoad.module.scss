@@ -1,6 +1,6 @@
 .track {
   width: 100%;
-  height: 100px;
+  height: 80px;
   border-bottom: 1px solid grey;
   border-top: 1px solid grey;
   align-items: center;
@@ -8,8 +8,7 @@
   position: relative;
 }
 .controls {
-  display: flex;
-  gap: 5px;
+  margin-right: 10px;
 }
 .actionButton {
   width: 70px;
