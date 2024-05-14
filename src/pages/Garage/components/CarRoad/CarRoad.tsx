@@ -6,6 +6,8 @@ import { CarIcon } from '@components/CarIcon';
 import { Button } from '@components/ui/Button';
 import { useCarEngine } from '@hooks/useCarEngine';
 import { CarModal } from '../CarModal';
+import { deleteCar } from '@services/GarageApi';
+import { deleteWinner } from '@services/WinnersApi';
 import styles from './CarRoad.module.scss';
 
 interface CarRoadProps {
@@ -14,9 +16,10 @@ interface CarRoadProps {
   startRace: boolean;
   resetRace: boolean;
   onEdit: () => void;
+  onDelete: () => void;
 }
 
-const CarRoad: React.FC<CarRoadProps> = ({ item, onFinish, startRace, resetRace, onEdit }) => {
+const CarRoad: React.FC<CarRoadProps> = ({ item, onFinish, startRace, resetRace, onEdit, onDelete }) => {
   const { isRunning, handleStartEngine, handleStopEngine } = useCarEngine(item.id, onFinish);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -27,6 +30,16 @@ const CarRoad: React.FC<CarRoadProps> = ({ item, onFinish, startRace, resetRace,
       handleStopEngine();
     }
   }, [startRace, resetRace]);
+
+  const handleDelete = async () => {
+    try {
+      await deleteCar(item.id);
+      deleteWinner(item.id);
+      onDelete();
+    } catch (error) {
+      console.error('Failed to delete car:', error);
+    }
+  };
 
   return (
     <div className={styles.track} id="race-track-container">
@@ -54,7 +67,7 @@ const CarRoad: React.FC<CarRoadProps> = ({ item, onFinish, startRace, resetRace,
           </Button>
         </div>
         <div>
-          <Button className={styles.actionButton} disabled={isRunning}>
+          <Button className={styles.actionButton} disabled={isRunning} onClick={handleDelete}>
             Remove
           </Button>
           <Button onClick={handleStopEngine} disabled={!isRunning}>

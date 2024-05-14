@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Car } from 'src/types/CarTypes';
 import { GetCars } from '@services/GarageApi';
 import { createRandomCars } from '@services/CreateRandomCars';
+import { createWinner, getWinner, incrementWins } from '@services/WinnersApi';
 import CarRoad from './components/CarRoad/CarRoad';
 import { AppPagination } from '@components/ui/AppPagination';
 import { Button } from '@components/ui/Button';
 import { CarModal } from './components/CarModal';
+import { WinnerModal } from './components/WinnerModal';
 import styles from './Garage.module.scss';
 
 const Garage = () => {
@@ -18,6 +20,7 @@ const Garage = () => {
   const [startRace, setStartRace] = useState<boolean>(false);
   const [resetRace, setResetRace] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isWinnerModalOpen, setIsWinnerModalOpen] = useState<boolean>(false);
   const [editingCarId, setEditingCarId] = useState<number | undefined>(undefined);
   const finishTimes = useRef<{ [key: number]: number }>({});
   const startTimeRef = useRef<number | null>(null);
@@ -66,7 +69,7 @@ const Garage = () => {
     setResetRace(true);
   };
 
-  const handleCarFinish = (id: number) => {
+  const handleCarFinish = async (id: number) => {
     const finishTime = performance.now();
     const winningCar = cars.find((car) => car.id === id);
     if (winningCar && startTimeRef.current !== null) {
@@ -76,6 +79,22 @@ const Garage = () => {
       console.log('Winner:', winnerData);
     }
   };
+
+  useEffect(() => {
+    if (winners.length === 1) {
+      const winner = winners[0];
+      setIsWinnerModalOpen(true);
+      try {
+        createWinner({ id: winner.car.id, wins: 1, time: winner.time });
+      } catch (error) {
+        if (error) {
+          incrementWins(winner.car.id, winner.time);
+        } else {
+          console.error('Failed to create or update winner:', error);
+        }
+      }
+    }
+  }, [winners]);
 
   const goToPage = (page: number) => {
     setPage(page);
@@ -115,6 +134,12 @@ const Garage = () => {
           }}
         />
       )}
+      {isWinnerModalOpen && winners[0] && (
+        <WinnerModal
+          winner={winners[0]}
+          onClose={() => setIsWinnerModalOpen(false)}
+        />
+      )}
       <div className={styles.controls}>
         <Button onClick={handleRaceStart} className="race-button">
           Start Race
@@ -143,6 +168,7 @@ const Garage = () => {
               startRace={startRace}
               resetRace={resetRace}
               onEdit={fetchCars}
+              onDelete={fetchCars}
             />
           ))}
         </ul>
@@ -154,7 +180,6 @@ const Garage = () => {
         onPageChange={(item) => {
           goToPage(item.selected + 1);
         }}
-
       />
     </div>
   );
