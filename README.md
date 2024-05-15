@@ -13,9 +13,9 @@ To run this project locally, you'll need to set up both the mock server and the 
 - Node.js and npm installed on your machine.
 - Git installed on your machine.
 
-### Step 1: Clone the Repositories
+### Clone the Repositories
 
-First, clone the mock server repository and the frontend repository:
+First, clone the mock server repository:
 
 ```bash
 # Clone the mock server repository
