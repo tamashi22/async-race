@@ -1,20 +1,24 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
 import Garage from './pages/Garage/Garage';
 import Winners from './pages/Winners/Winners';
 import { AppHeader } from '@components/AppHeader';
 import './styles/global.scss';
+
 const App: React.FC = () => {
+  const [currentView, setCurrentView] = useState<'garage' | 'winners'>(
+    'garage',
+  );
+
   return (
-    <BrowserRouter>
-      <div className="container">
-        <AppHeader />
+    <div className="container">
+      <AppHeader currentView={currentView} setCurrentView={setCurrentView} />
+      <div style={{ display: currentView === 'garage' ? 'block' : 'none' }}>
+        <Garage />
       </div>
-      <Routes>
-        <Route path="/" element={<Garage />} />
-        <Route path="winners" element={<Winners />} />
-      </Routes>
-    </BrowserRouter>
+      <div style={{ display: currentView === 'winners' ? 'block' : 'none' }}>
+        <Winners currentView={currentView} />
+      </div>
+    </div>
   );
 };
 

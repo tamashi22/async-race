@@ -1,10 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import clsx from "clsx";
+import clsx from 'clsx';
 
-
-
-import styles from "./TextField.module.scss";
+import styles from './TextField.module.scss';
 
 export interface TextFieldProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -33,7 +31,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       onClear,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <div>
@@ -47,15 +45,15 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
 
         <div className={styles.container}>
           {iconLeft ? (
-            <div className={styles["icon-left"]}>{iconLeft}</div>
+            <div className={styles['icon-left']}>{iconLeft}</div>
           ) : null}
           <input
             ref={ref}
             className={clsx(
               styles.input,
               className,
-              iconLeft ? styles[`input--iconLeft`] : "",
-              buttonTitle ? styles["input--button"] : ""
+              iconLeft ? styles[`input--iconLeft`] : '',
+              buttonTitle ? styles['input--button'] : '',
             )}
             {...props}
           />
@@ -78,7 +76,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
-TextField.displayName = "TextField";
+TextField.displayName = 'TextField';

@@ -1,3 +1,3 @@
-import { AppPagination } from "./AppPagination";
+import { AppPagination } from './AppPagination';
 
 export { AppPagination };

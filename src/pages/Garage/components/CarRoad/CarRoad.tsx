@@ -19,8 +19,18 @@ interface CarRoadProps {
   onDelete: () => void;
 }
 
-const CarRoad: React.FC<CarRoadProps> = ({ item, onFinish, startRace, resetRace, onEdit, onDelete }) => {
-  const { isRunning, handleStartEngine, handleStopEngine } = useCarEngine(item.id, onFinish);
+const CarRoad: React.FC<CarRoadProps> = ({
+  item,
+  onFinish,
+  startRace,
+  resetRace,
+  onEdit,
+  onDelete,
+}) => {
+  const { isRunning, handleStartEngine, handleStopEngine } = useCarEngine(
+    item.id,
+    onFinish,
+  );
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -67,7 +77,11 @@ const CarRoad: React.FC<CarRoadProps> = ({ item, onFinish, startRace, resetRace,
           </Button>
         </div>
         <div>
-          <Button className={styles.actionButton} disabled={isRunning} onClick={handleDelete}>
+          <Button
+            className={styles.actionButton}
+            disabled={isRunning}
+            onClick={handleDelete}
+          >
             Remove
           </Button>
           <Button onClick={handleStopEngine} disabled={!isRunning}>

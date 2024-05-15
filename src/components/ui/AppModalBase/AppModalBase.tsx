@@ -1,9 +1,9 @@
-import React from "react";
-import clsx from "clsx";
-import { IoClose } from "react-icons/io5";
+import React from 'react';
+import clsx from 'clsx';
+import { IoClose } from 'react-icons/io5';
 
-import { IoArrowBackOutline } from "react-icons/io5";
-import styles from "./AppModalBase.module.scss";
+import { IoArrowBackOutline } from 'react-icons/io5';
+import styles from './AppModalBase.module.scss';
 
 interface Props {
   onClose?(): void;

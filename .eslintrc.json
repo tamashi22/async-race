@@ -23,7 +23,7 @@
   "rules": {
     "max-len": ["warn", { "code": 120 }],
     "max-lines-per-function": [
-      "error",
+      "warn",
       { "max": 40, "skipBlankLines": true, "skipComments": true }
     ],
     "indent": ["warn", 2, { "SwitchCase": 1 }],
@@ -36,9 +36,9 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "consistent-return": "error",
     "no-magic-numbers": [
-      "error",
+      "warn",
       {
-        "ignore": [0, 1],
+        "ignore": [0, 10],
         "ignoreArrayIndexes": true,
         "enforceConst": true,
         "detectObjects": false

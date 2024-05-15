@@ -27,10 +27,18 @@ const Garage = () => {
   const [winners, setWinners] = useState<{ car: Car; time: number }[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isWinnerModalOpen, setIsWinnerModalOpen] = useState<boolean>(false);
-  const [editingCarId, setEditingCarId] = useState<number | undefined>(undefined);
+  const [editingCarId, setEditingCarId] = useState<number | undefined>(
+    undefined,
+  );
 
-  const { startRace, resetRace, handleRaceStart, handleRaceReset, handleCarFinish } = useRace(cars, (winnerData) => {
-    setWinners((prevWinners) => {
+  const {
+    startRace,
+    resetRace,
+    handleRaceStart,
+    handleRaceReset,
+    handleCarFinish,
+  } = useRace(cars, winnerData => {
+    setWinners(prevWinners => {
       if (prevWinners.length === 0) {
         return [winnerData];
       }
@@ -42,13 +50,17 @@ const Garage = () => {
     if (winners.length === 1) {
       const winner = winners[0];
       setIsWinnerModalOpen(true);
-      createWinner({ id: winner.car.id, wins: 1, time: winner.time }).catch(async (error) => {
-        if ((error as { response: { status: number } }).response?.status === 500) {
-          await incrementWins(winner.car.id, winner.time);
-        } else {
-          console.error('Failed to create or update winner:', error);
-        }
-      });
+      createWinner({ id: winner.car.id, wins: 1, time: winner.time }).catch(
+        async error => {
+          if (
+            (error as { response: { status: number } }).response?.status === 500
+          ) {
+            await incrementWins(winner.car.id, winner.time);
+          } else {
+            console.error('Failed to create or update winner:', error);
+          }
+        },
+      );
     }
   }, [winners]);
 
@@ -61,7 +73,9 @@ const Garage = () => {
   const goToPage = (page: number) => {
     setPage(page);
   };
-
+  useEffect(() => {
+    fetchCars();
+  }, []);
   return (
     <div className="container">
       {isModalOpen && (
@@ -115,7 +129,7 @@ const Garage = () => {
       <h3 className={styles.count}>Garage: {totalCount}</h3>
       <AppPagination
         pageCount={Math.ceil((totalCount - 1) / carsPerPage)}
-        onPageChange={(item) => {
+        onPageChange={item => {
           goToPage(item.selected + 1);
         }}
       />

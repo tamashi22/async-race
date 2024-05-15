@@ -1,26 +1,42 @@
-import { Link, useLocation } from 'react-router-dom';
+import React from 'react';
 import clsx from 'clsx';
 import Logo from '@images/logo.png';
 import styles from './AppHeader.module.scss';
 
+interface AppHeaderProps {
+  currentView: 'garage' | 'winners';
+  setCurrentView: (view: 'garage' | 'winners') => void;
+}
 
-const AppHeader = () => {
-  const location = useLocation();
-  const { pathname } = location;
-  console.log(pathname)
+const AppHeader: React.FC<AppHeaderProps> = ({
+  currentView,
+  setCurrentView,
+}) => {
   return (
     <header className={styles.wrapper}>
-      <img src={Logo} className={styles.logo} />
+      <img src={Logo} className={styles.logo} alt="logo" />
       <div className={styles.routes}>
-        <Link to="/" className={clsx(styles.link, pathname == '/' && styles.active)}
+        <button
+          className={clsx(
+            styles.link,
+            currentView === 'garage' && styles.active,
+          )}
+          onClick={() => setCurrentView('garage')}
         >
           Garage
-        </Link>
-        <Link to="/winners" className={clsx(styles.link, pathname == '/winners' && styles.active)}>
+        </button>
+        <button
+          className={clsx(
+            styles.link,
+            currentView === 'winners' && styles.active,
+          )}
+          onClick={() => setCurrentView('winners')}
+        >
           Winners
-        </Link>
+        </button>
       </div>
-    </header >
+    </header>
   );
 };
+
 export default AppHeader;

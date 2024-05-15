@@ -1,14 +1,14 @@
-import * as React from "react";
+import * as React from 'react';
 
-import Pagination, { ReactPaginateProps } from "react-paginate";
+import Pagination, { ReactPaginateProps } from 'react-paginate';
 
-import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 
-import styles from "./AppPagination.module.scss";
+import styles from './AppPagination.module.scss';
 const ReactPaginate = Pagination as any;
-interface Props { }
+interface Props {}
 
-export const AppPagination: React.FC<Props & ReactPaginateProps> = (props) => {
+export const AppPagination: React.FC<Props & ReactPaginateProps> = props => {
   return (
     <ReactPaginate
       containerClassName={styles.container}
