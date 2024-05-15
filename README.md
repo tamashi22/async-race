@@ -31,8 +31,10 @@ npm install
 npm start
 
 # The server will run at http://localhost:3000
-
+```
 In a new terminal window, clone and set up the frontend application:
+
+```bash
 # Clone the frontend repository
 git clone https://github.com/your-username/async-race-frontend.git
 
@@ -46,7 +48,7 @@ npm install
 npm run dev
 
 # The application will run at http://localhost:5173
-
+```
 Note
 Ensure the mock server is running before starting the frontend application to avoid any connection issues.
 
@@ -144,4 +146,4 @@ Ensure the mock server is running before starting the frontend application to av
 ## 🌟 Overall Code Quality (35 points)
 
 - [ ] **(Up to 35 points)** Discretionary points awarded by the reviewer based on overall code quality, readability
-```
+
