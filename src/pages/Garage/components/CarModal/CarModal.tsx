@@ -3,9 +3,10 @@ import { AppModalBase } from '@components/ui/AppModalBase';
 import { Button } from '@components/ui/Button';
 import { TextField } from '@components/ui/TextField';
 import { PopoverPicker } from '@components/PopoverPicker';
+import { CarIcon } from '@components/CarIcon';
 import { createCar, updateCar, getCar } from '@services/GarageApi';
-import { Car, NewCar } from 'src/types/CarTypes';
 import styles from './CarModal.module.scss';
+
 
 interface CarModalProps {
     carId?: number;
@@ -15,7 +16,7 @@ interface CarModalProps {
 
 const CarModal: React.FC<CarModalProps> = ({ carId, onClose, onSave }) => {
     const [name, setName] = useState<string>('');
-    const [color, setColor] = useState<string>('#ffffff');
+    const [color, setColor] = useState<string>('red');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -56,24 +57,28 @@ const CarModal: React.FC<CarModalProps> = ({ carId, onClose, onSave }) => {
     };
 
     return (
-        <AppModalBase onClose={onClose}>
+        <AppModalBase onClose={onClose} contentClass={styles.modalContent}>
             <div className={styles.carModal}>
-                <h2>{carId ? 'Update Car' : 'Create Car'}</h2>
+                <h2 className={styles.title}>{carId ? 'Update Car' : 'Create Car'}</h2>
                 {error && <p className={styles.error}>{error}</p>}
                 {isLoading ? (
                     <p>Loading...</p>
                 ) : (
-                    <>
+                    <div className={styles.content}>
+                        <div className={styles.icon}> <CarIcon color={color} id="car"></CarIcon></div>
                         <TextField
                             label="Car Name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            className={styles.input}
                         />
-                        <PopoverPicker color={color} onChange={setColor} />
-                        <Button onClick={handleSave} className={styles.saveButton}>
-                            {carId ? 'Update' : 'Create'}
-                        </Button>
-                    </>
+                        <div className={styles.colorPicker}><p>ChooseColor:</p><PopoverPicker color={color} onChange={setColor} /></div>
+                        <div className={styles.buttonWrapper}>
+                            <Button onClick={handleSave} className={styles.saveButton}>
+                                {carId ? 'Update' : 'Create'}
+                            </Button>
+                        </div>
+                    </div>
                 )}
             </div>
         </AppModalBase>

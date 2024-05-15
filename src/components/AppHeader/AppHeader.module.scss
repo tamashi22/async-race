@@ -12,10 +12,13 @@
   display: flex;
   gap: 10px;
   .link {
-    text-decoration: underline;
+    text-decoration: none;
     color: #fff;
     &:hover {
       color: grey;
     }
+  }
+  .active {
+    text-decoration: underline;
   }
 }

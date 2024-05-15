@@ -30,7 +30,7 @@ export const AppModalBase: React.FC<Props> = ({
           </button>
         ) : null}
         <button onClick={onClose} className={styles.close}>
-          <IoClose />
+          <IoClose size={30} />
         </button>
         {children}
       </div>

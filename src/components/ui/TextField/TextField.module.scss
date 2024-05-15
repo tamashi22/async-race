@@ -14,11 +14,12 @@
 .input {
   // @extend .regular-14;
   width: 100%;
-  background-color: white;
+  background-color: lightgray;
   // border: solid 1px $TITLE_ACTIVE_8;
   padding: 8px 12px;
   border-radius: 10px;
   outline: none;
+  border: 0;
   // color: $TITLE_ACTIVE_1;
   &::placeholder {
     // color: $TITLE_ACTIVE_5;
