@@ -1,11 +1,13 @@
 import React from 'react';
 import { Button } from '@components/ui/Button';
 import styles from './GarageContols.module.scss';
+
 interface GarageControlsProps {
   onRaceStart: () => void;
   onRaceReset: () => void;
   onGenerateCars: () => void;
   onCreateCar: () => void;
+  buttonsDisabled: boolean;
 }
 
 const GarageControls: React.FC<GarageControlsProps> = ({
@@ -13,22 +15,21 @@ const GarageControls: React.FC<GarageControlsProps> = ({
   onRaceReset,
   onGenerateCars,
   onCreateCar,
+  buttonsDisabled,
 }) => {
   return (
-    <div className={styles.contols}>
+    <div className={styles.controls}>
       <div className={styles.buttonsWrapper}>
-        <Button onClick={onRaceStart} className="race-button">
+        <Button onClick={onRaceStart} disabled={buttonsDisabled}>
           Start Race
         </Button>
-        <Button onClick={onRaceReset} className="reset-button">
-          Reset Race
-        </Button>
+        <Button onClick={onRaceReset}>Reset Race</Button>
       </div>
       <div className={styles.buttonsWrapper}>
-        <Button onClick={onCreateCar} className="create-button">
+        <Button onClick={onCreateCar} disabled={buttonsDisabled}>
           Create New Car
         </Button>
-        <Button onClick={onGenerateCars} className="generate-button">
+        <Button onClick={onGenerateCars} disabled={buttonsDisabled}>
           Generate 100 Cars
         </Button>
       </div>

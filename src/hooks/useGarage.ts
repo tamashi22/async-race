@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Car } from 'src/types/CarTypes';
 import { GetCars } from '@services/GarageApi';
 import { createRandomCars } from '@services/CreateRandomCars';

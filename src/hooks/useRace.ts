@@ -1,18 +1,23 @@
 import { useState, useEffect, useRef } from 'react';
 import { Car } from 'src/types/CarTypes';
 
+interface Winner {
+  car: Car;
+  time: number;
+}
+
 export const useRace = (
   cars: Car[],
-  onWinnerFound: (winner: { car: Car; time: number }) => void,
+  onWinnerFound: (winner: Winner) => void,
 ) => {
-  const [startRace, setStartRace] = useState<boolean>(false);
-  const [resetRace, setResetRace] = useState<boolean>(false);
-  const finishTimes = useRef<{ [key: number]: number }>({});
+  const [startRace, setStartRace] = useState(false);
+  const [resetRace, setResetRace] = useState(false);
   const startTimeRef = useRef<number | null>(null);
+  const winnerFoundRef = useRef(false);
 
   const handleRaceStart = () => {
-    finishTimes.current = {};
     startTimeRef.current = performance.now();
+    winnerFoundRef.current = false;
     setStartRace(true);
   };
 
@@ -22,10 +27,13 @@ export const useRace = (
   };
 
   const handleCarFinish = (id: number) => {
+    if (winnerFoundRef.current) return;
+
     const finishTime = performance.now();
     const winningCar = cars.find(car => car.id === id);
     if (winningCar && startTimeRef.current !== null) {
-      const raceTime = (finishTime - startTimeRef.current) / 1000; // Convert milliseconds to seconds
+      const raceTime = (finishTime - startTimeRef.current) / 1000;
+      winnerFoundRef.current = true;
       onWinnerFound({ car: winningCar, time: raceTime });
     }
   };
@@ -33,8 +41,8 @@ export const useRace = (
   useEffect(() => {
     if (resetRace) {
       setResetRace(false);
-      finishTimes.current = {};
       startTimeRef.current = null;
+      winnerFoundRef.current = false;
     }
   }, [resetRace]);
 

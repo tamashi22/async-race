@@ -12,7 +12,7 @@ import styles from './Garage.module.scss';
 
 const carsPerPage = 7;
 
-const Garage = () => {
+const Garage: React.FC = () => {
   const {
     cars,
     page,
@@ -25,11 +25,13 @@ const Garage = () => {
   } = useGarage(carsPerPage);
 
   const [winners, setWinners] = useState<{ car: Car; time: number }[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isWinnerModalOpen, setIsWinnerModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isWinnerModalOpen, setIsWinnerModalOpen] = useState(false);
   const [editingCarId, setEditingCarId] = useState<number | undefined>(
     undefined,
   );
+  const [winnerCreated, setWinnerCreated] = useState(false);
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
   const {
     startRace,
@@ -38,18 +40,16 @@ const Garage = () => {
     handleRaceReset,
     handleCarFinish,
   } = useRace(cars, winnerData => {
-    setWinners(prevWinners => {
-      if (prevWinners.length === 0) {
-        return [winnerData];
-      }
-      return prevWinners;
-    });
+    setWinners(prevWinners =>
+      prevWinners.length === 0 ? [winnerData] : prevWinners,
+    );
   });
 
   useEffect(() => {
-    if (winners.length === 1) {
+    if (winners.length === 1 && !winnerCreated) {
       const winner = winners[0];
       setIsWinnerModalOpen(true);
+      setWinnerCreated(true);
       createWinner({ id: winner.car.id, wins: 1, time: winner.time }).catch(
         async error => {
           if (
@@ -62,7 +62,7 @@ const Garage = () => {
         },
       );
     }
-  }, [winners]);
+  }, [winners, winnerCreated]);
 
   useEffect(() => {
     if (!isWinnerModalOpen) {
@@ -70,12 +70,24 @@ const Garage = () => {
     }
   }, [isWinnerModalOpen]);
 
+  useEffect(() => {
+    fetchCars();
+  }, [page]);
+
+  const handleRaceStartWrapper = () => {
+    setButtonsDisabled(true);
+    handleRaceStart();
+  };
+
+  const handleRaceResetWrapper = () => {
+    handleRaceReset();
+    setIsWinnerModalOpen(false);
+    setWinnerCreated(false);
+    setButtonsDisabled(false);
+  };
   const goToPage = (page: number) => {
     setPage(page);
   };
-  useEffect(() => {
-    fetchCars();
-  }, []);
   return (
     <div className="container">
       {isModalOpen && (
@@ -99,13 +111,11 @@ const Garage = () => {
         />
       )}
       <GarageControls
-        onRaceStart={handleRaceStart}
-        onRaceReset={() => {
-          handleRaceReset();
-          setIsWinnerModalOpen(false); // Reset the modal state
-        }}
+        onRaceStart={handleRaceStartWrapper}
+        onRaceReset={handleRaceResetWrapper}
         onGenerateCars={handleGenerateCars}
         onCreateCar={() => setIsModalOpen(true)}
+        buttonsDisabled={buttonsDisabled}
       />
       {isLoading ? (
         <p>Loading...</p>
@@ -113,7 +123,7 @@ const Garage = () => {
         <p>{error}</p>
       ) : (
         <ul>
-          {cars.map((car: Car) => (
+          {cars.map(car => (
             <CarRoad
               key={car.id}
               item={car}
@@ -128,7 +138,7 @@ const Garage = () => {
       )}
       <h3 className={styles.count}>Garage: {totalCount}</h3>
       <AppPagination
-        pageCount={Math.ceil((totalCount - 1) / carsPerPage)}
+        pageCount={Math.ceil(totalCount / carsPerPage)}
         onPageChange={item => {
           goToPage(item.selected + 1);
         }}
