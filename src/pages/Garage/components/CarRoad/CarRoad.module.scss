@@ -9,14 +9,26 @@
 }
 .controls {
   margin-right: 10px;
+  flex-wrap: nowrap;
+}
+.controlsWrapper {
+  display: flex;
+  flex-wrap: nowrap;
 }
 .actionButton {
   width: 70px;
   font-size: 9px;
 }
+.carIcon {
+  z-index: 99;
+  @media only screen and (max-width: 480px) {
+    width: 70px;
+  }
+}
 .name {
   color: rgb(65, 65, 65);
-  margin-left: 20px;
+  position: absolute;
+  left: 30%;
 }
 .finish {
   position: absolute;

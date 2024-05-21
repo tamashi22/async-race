@@ -1,8 +1,12 @@
+.tableWrapper{
+  overflow: auto;
+}
 .table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
   color: #fff;
+
   th,
   td {
     padding: 10px;

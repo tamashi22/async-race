@@ -57,6 +57,10 @@ export const incrementWins = async (
   time: number,
 ): Promise<Winner> => {
   const winner = await getWinner(id);
-  const updatedWinner = await updateWinner(id, { wins: winner.wins + 1, time });
+  const bestTime = Math.min(winner.time, time);
+  const updatedWinner = await updateWinner(id, {
+    wins: winner.wins + 1,
+    time: bestTime,
+  });
   return updatedWinner;
 };

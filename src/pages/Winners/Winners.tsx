@@ -4,6 +4,7 @@ import { getWinners } from '@services/WinnersApi';
 import { getCar } from '@services/GarageApi';
 import { CarIcon } from '@components/CarIcon';
 import { AppPagination } from '@components/ui/AppPagination';
+import { Car } from 'src/types/CarTypes';
 import styles from './Winners.module.scss';
 
 interface Winner {
@@ -12,11 +13,7 @@ interface Winner {
   time: number;
   car: Car; // Detailed car information
 }
-interface Car {
-  id: number;
-  name: string;
-  color: string;
-}
+
 const Winners: React.FC<{ currentView: 'garage' | 'winners' }> = ({
   currentView,
 }) => {
@@ -67,41 +64,43 @@ const Winners: React.FC<{ currentView: 'garage' | 'winners' }> = ({
   return (
     <div className="container">
       <h2>Winners</h2>
-
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th onClick={() => handleSort('id')}>Id {renderSortIcon('id')}</th>
-            <th>CAR</th>
-            <th>NAME</th>
-            <th onClick={() => handleSort('wins')}>
-              WINS {renderSortIcon('wins')}
-            </th>
-            <th onClick={() => handleSort('time')}>
-              BEST TIME (SECONDS) {renderSortIcon('time')}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {winners.map(winner => (
-            <tr key={winner.id}>
-              <td>{winner.id}</td>
-              <td>
-                <CarIcon color={winner.car.color} id={winner.car.name} />
-              </td>
-              <td>{winner.car.name}</td>
-              <td>{winner.wins}</td>
-              <td>{winner.time.toFixed(2)}</td>
+      <div className={styles.tableWrapper}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th onClick={() => handleSort('id')}>Id {renderSortIcon('id')}</th>
+              <th>CAR</th>
+              <th>NAME</th>
+              <th onClick={() => handleSort('wins')}>
+                WINS {renderSortIcon('wins')}
+              </th>
+              <th onClick={() => handleSort('time')}>
+                BEST TIME (SECONDS) {renderSortIcon('time')}
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {winners.map(winner => (
+              <tr key={winner.id}>
+                <td>{winner.id}</td>
+                <td>
+                  <CarIcon color={winner.car.color} id={winner.car.name} />
+                </td>
+                <td>{winner.car.name}</td>
+                <td>{winner.wins}</td>
+                <td>{winner.time.toFixed(2)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <AppPagination
         pageCount={Math.ceil(totalWinners / winnersPerPage)}
         onPageChange={item => {
           setPage(item.selected + 1);
         }}
       />
+
     </div>
   );
 };

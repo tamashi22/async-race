@@ -75,7 +75,7 @@ const CarModal: React.FC<CarModalProps> = ({ carId, onClose, onSave }) => {
               className={styles.input}
             />
             <div className={styles.colorPicker}>
-              <p>ChooseColor:</p>
+              <p>Color:</p>
               <PopoverPicker color={color} onChange={setColor} />
             </div>
             <div className={styles.buttonWrapper}>

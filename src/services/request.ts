@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = process.env.API_URL;
 const axiosRequest = axios.create({
   baseURL: BASE_URL,
   // withCredentials: true,

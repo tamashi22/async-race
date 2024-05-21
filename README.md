@@ -3,6 +3,7 @@
 ## 🚀 UI Deployment
 
 - **Deployed Link:** [https://async-race-chi.vercel.app/]
+## Score: 335 / 370
 
 ## 🛠️ How to Run Locally
 

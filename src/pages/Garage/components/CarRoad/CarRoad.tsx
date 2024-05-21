@@ -64,7 +64,7 @@ const CarRoad: React.FC<CarRoadProps> = ({
         />
       )}
       <div className={styles.controls}>
-        <div>
+        <div className={styles.contolsWrapper}>
           <Button
             className={styles.actionButton}
             disabled={isRunning}
@@ -76,7 +76,7 @@ const CarRoad: React.FC<CarRoadProps> = ({
             <CiPlay1 />
           </Button>
         </div>
-        <div>
+        <div className={styles.contolsWrapper}>
           <Button
             className={styles.actionButton}
             disabled={isRunning}
@@ -89,7 +89,7 @@ const CarRoad: React.FC<CarRoadProps> = ({
           </Button>
         </div>
       </div>
-      <CarIcon color={item.color} id={`car-icon-${item.id}`} />
+      <CarIcon color={item.color} id={`car-icon-${item.id}`} className={styles.carIcon} />
       <h3 className={styles.name}>{item.name}</h3>
       <div className={styles.finish}>
         <GiFinishLine size={40} color="white" />

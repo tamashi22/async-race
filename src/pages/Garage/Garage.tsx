@@ -13,6 +13,7 @@ import styles from './Garage.module.scss';
 const carsPerPage = 7;
 
 const Garage: React.FC = () => {
+  console.log(process.env.API_URL)
   const {
     cars,
     page,
